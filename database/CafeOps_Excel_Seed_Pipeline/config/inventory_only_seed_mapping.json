@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "batch_size": 250,
+  "sheets": [
+    {
+      "sheet": "inventory_balances",
+      "table": "inventory_balances",
+      "mode": "upsert",
+      "conflict_columns": [
+        "inventory_balance_id"
+      ],
+      "columns": {
+        "inventory_balance_id": "inventory_balance_id",
+        "organization_id": "organization_id",
+        "location_id": "location_id",
+        "ingredient_id": "ingredient_id",
+        "as_of_date": "as_of_date",
+        "opening_quantity": "opening_quantity",
+        "unit": "unit",
+        "reorder_point": "reorder_point",
+        "target_quantity": "target_quantity"
+      },
+      "required_headers": [
+        "inventory_balance_id",
+        "organization_id",
+        "location_id",
+        "ingredient_id",
+        "as_of_date",
+        "opening_quantity",
+        "unit",
+        "reorder_point",
+        "target_quantity"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "inventory_transactions",
+      "table": "inventory_transactions",
+      "mode": "upsert",
+      "conflict_columns": [
+        "inventory_transaction_id"
+      ],
+      "columns": {
+        "inventory_transaction_id": "inventory_transaction_id",
+        "organization_id": "organization_id",
+        "location_id": "location_id",
+        "ingredient_id": "ingredient_id",
+        "movement_date": "movement_date",
+        "movement_type": "movement_type",
+        "quantity_change": "quantity_change",
+        "unit": "unit",
+        "reference_type": "reference_type",
+        "reference_id": "reference_id",
+        "notes": "notes"
+      },
+      "required_headers": [
+        "inventory_transaction_id",
+        "organization_id",
+        "location_id",
+        "ingredient_id",
+        "movement_date",
+        "movement_type",
+        "quantity_change",
+        "unit"
+      ],
+      "skip_empty_rows": true
+    }
+  ],
+  "note": "Inventory-only targeted upsert. Does not modify other tables."
+}

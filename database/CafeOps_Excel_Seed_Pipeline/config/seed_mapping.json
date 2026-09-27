@@ -1,0 +1,584 @@
+{
+  "version": 1,
+  "batch_size": 250,
+  "sheets": [
+    {
+      "sheet": "organizations",
+      "table": "organizations",
+      "mode": "upsert",
+      "conflict_columns": [
+        "organization_id"
+      ],
+      "columns": {
+        "organization_id": "organization_id",
+        "organization_name": "organization_name",
+        "currency": "currency",
+        "timezone": "timezone",
+        "status": "status"
+      },
+      "required_headers": [
+        "organization_id",
+        "organization_name",
+        "currency",
+        "timezone",
+        "status"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "locations",
+      "table": "locations",
+      "mode": "upsert",
+      "conflict_columns": [
+        "location_id"
+      ],
+      "columns": {
+        "location_id": "location_id",
+        "organization_id": "organization_id",
+        "location_name": "location_name",
+        "address": "address",
+        "status": "status"
+      },
+      "required_headers": [
+        "location_id",
+        "organization_id",
+        "location_name",
+        "address",
+        "status"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "employees",
+      "table": "employees",
+      "mode": "upsert",
+      "conflict_columns": [
+        "employee_id"
+      ],
+      "columns": {
+        "employee_id": "employee_id",
+        "organization_id": "organization_id",
+        "first_name": "first_name",
+        "last_name": "last_name",
+        "role": "role",
+        "hourly_rate": "hourly_rate",
+        "active": "active"
+      },
+      "required_headers": [
+        "employee_id",
+        "organization_id",
+        "first_name",
+        "last_name",
+        "role",
+        "hourly_rate",
+        "active"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "menu_items",
+      "table": "menu_items",
+      "mode": "upsert",
+      "conflict_columns": [
+        "menu_item_id"
+      ],
+      "columns": {
+        "menu_item_id": "menu_item_id",
+        "sku": "sku",
+        "menu_item_name": "menu_item_name",
+        "category": "category",
+        "size": "size",
+        "list_price": "list_price",
+        "active": "active"
+      },
+      "required_headers": [
+        "menu_item_id",
+        "sku",
+        "menu_item_name",
+        "category",
+        "size",
+        "list_price",
+        "active"
+      ],
+      "skip_empty_rows": true,
+      "defaults": {
+        "organization_id": "ORG001"
+      }
+    },
+    {
+      "sheet": "ingredients",
+      "table": "ingredients",
+      "mode": "upsert",
+      "conflict_columns": [
+        "ingredient_id"
+      ],
+      "columns": {
+        "ingredient_id": "ingredient_id",
+        "ingredient_name": "ingredient_name",
+        "base_unit": "base_unit",
+        "purchase_pack_size": "purchase_pack_size",
+        "purchase_pack_unit": "purchase_pack_unit",
+        "latest_pack_cost": "latest_pack_cost",
+        "unit_cost": "unit_cost",
+        "active": "active"
+      },
+      "required_headers": [
+        "ingredient_id",
+        "ingredient_name",
+        "base_unit",
+        "purchase_pack_size",
+        "purchase_pack_unit",
+        "latest_pack_cost",
+        "unit_cost",
+        "active"
+      ],
+      "skip_empty_rows": true,
+      "defaults": {
+        "organization_id": "ORG001"
+      }
+    },
+    {
+      "sheet": "recipes",
+      "table": "recipes",
+      "mode": "upsert",
+      "columns": {
+        "recipe_id": "recipe_id",
+        "menu_item_id": "menu_item_id",
+        "recipe_version": "recipe_version",
+        "ingredient_id": "ingredient_id",
+        "quantity": "quantity",
+        "unit": "unit",
+        "effective_from": "effective_from",
+        "effective_to": "effective_to"
+      },
+      "required_headers": [
+        "recipe_id",
+        "menu_item_id",
+        "recipe_version",
+        "ingredient_id",
+        "quantity",
+        "unit",
+        "effective_from"
+      ],
+      "skip_empty_rows": true,
+      "defaults": {
+        "organization_id": "ORG001"
+      },
+      "conflict_columns": [
+        "organization_id",
+        "recipe_id",
+        "ingredient_id"
+      ]
+    },
+    {
+      "sheet": "inventory_balances",
+      "table": "inventory_balances",
+      "mode": "upsert",
+      "conflict_columns": [
+        "inventory_balance_id"
+      ],
+      "columns": {
+        "inventory_balance_id": "inventory_balance_id",
+        "organization_id": "organization_id",
+        "location_id": "location_id",
+        "ingredient_id": "ingredient_id",
+        "as_of_date": "as_of_date",
+        "opening_quantity": "opening_quantity",
+        "unit": "unit",
+        "reorder_point": "reorder_point",
+        "target_quantity": "target_quantity"
+      },
+      "required_headers": [
+        "inventory_balance_id",
+        "organization_id",
+        "location_id",
+        "ingredient_id",
+        "as_of_date",
+        "opening_quantity",
+        "unit",
+        "reorder_point",
+        "target_quantity"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "inventory_transactions",
+      "table": "inventory_transactions",
+      "mode": "upsert",
+      "conflict_columns": [
+        "inventory_transaction_id"
+      ],
+      "columns": {
+        "inventory_transaction_id": "inventory_transaction_id",
+        "organization_id": "organization_id",
+        "location_id": "location_id",
+        "ingredient_id": "ingredient_id",
+        "movement_date": "movement_date",
+        "movement_type": "movement_type",
+        "quantity_change": "quantity_change",
+        "unit": "unit",
+        "reference_type": "reference_type",
+        "reference_id": "reference_id",
+        "notes": "notes"
+      },
+      "required_headers": [
+        "inventory_transaction_id",
+        "organization_id",
+        "location_id",
+        "ingredient_id",
+        "movement_date",
+        "movement_type",
+        "quantity_change",
+        "unit"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "vendors",
+      "table": "vendors",
+      "mode": "upsert",
+      "conflict_columns": [
+        "vendor_id"
+      ],
+      "columns": {
+        "vendor_id": "vendor_id",
+        "organization_id": "organization_id",
+        "vendor_name": "vendor_name",
+        "payment_terms": "payment_terms",
+        "active": "active"
+      },
+      "required_headers": [
+        "vendor_id",
+        "organization_id",
+        "vendor_name",
+        "payment_terms",
+        "active"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "vendor_items",
+      "table": "vendor_items",
+      "mode": "upsert",
+      "columns": {
+        "vendor_item_id": "vendor_item_id",
+        "vendor_id": "vendor_id",
+        "ingredient_id": "ingredient_id",
+        "vendor_sku": "vendor_sku",
+        "pack_size": "pack_size",
+        "pack_unit": "pack_unit",
+        "current_pack_price": "current_pack_price",
+        "currency": "currency",
+        "valid_from": "valid_from"
+      },
+      "required_headers": [
+        "vendor_item_id",
+        "vendor_id",
+        "ingredient_id",
+        "pack_size",
+        "pack_unit",
+        "current_pack_price",
+        "currency",
+        "valid_from"
+      ],
+      "skip_empty_rows": true,
+      "defaults": {
+        "organization_id": "ORG001"
+      },
+      "conflict_columns": [
+        "organization_id",
+        "vendor_id",
+        "ingredient_id",
+        "valid_from"
+      ]
+    },
+    {
+      "sheet": "purchase_orders",
+      "table": "purchase_orders",
+      "mode": "upsert",
+      "conflict_columns": [
+        "purchase_order_id"
+      ],
+      "columns": {
+        "purchase_order_id": "purchase_order_id",
+        "organization_id": "organization_id",
+        "location_id": "location_id",
+        "vendor_id": "vendor_id",
+        "order_date": "order_date",
+        "expected_date": "expected_date",
+        "status": "status",
+        "currency": "currency"
+      },
+      "required_headers": [
+        "purchase_order_id",
+        "organization_id",
+        "location_id",
+        "vendor_id",
+        "order_date",
+        "status",
+        "currency"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "purchase_order_lines",
+      "table": "purchase_order_lines",
+      "mode": "upsert",
+      "conflict_columns": [
+        "purchase_order_line_id"
+      ],
+      "columns": {
+        "purchase_order_line_id": "purchase_order_line_id",
+        "purchase_order_id": "purchase_order_id",
+        "ingredient_id": "ingredient_id",
+        "quantity_ordered": "quantity_ordered",
+        "quantity_received": "quantity_received",
+        "unit": "unit",
+        "unit_price": "unit_price",
+        "line_total": "line_total"
+      },
+      "required_headers": [
+        "purchase_order_line_id",
+        "purchase_order_id",
+        "ingredient_id",
+        "quantity_ordered",
+        "quantity_received",
+        "unit",
+        "unit_price",
+        "line_total"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "invoices",
+      "table": "invoices",
+      "mode": "upsert",
+      "conflict_columns": [
+        "invoice_id"
+      ],
+      "columns": {
+        "invoice_id": "invoice_id",
+        "organization_id": "organization_id",
+        "location_id": "location_id",
+        "vendor_id": "vendor_id",
+        "purchase_order_id": "purchase_order_id",
+        "invoice_number": "invoice_number",
+        "invoice_date": "invoice_date",
+        "due_date": "due_date",
+        "status": "status",
+        "currency": "currency",
+        "total_amount": "total_amount"
+      },
+      "required_headers": [
+        "invoice_id",
+        "organization_id",
+        "location_id",
+        "vendor_id",
+        "invoice_number",
+        "invoice_date",
+        "status",
+        "currency",
+        "total_amount"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "invoice_lines",
+      "table": "invoice_lines",
+      "mode": "upsert",
+      "conflict_columns": [
+        "invoice_line_id"
+      ],
+      "columns": {
+        "invoice_line_id": "invoice_line_id",
+        "invoice_id": "invoice_id",
+        "ingredient_id": "ingredient_id",
+        "description": "description",
+        "quantity": "quantity",
+        "unit": "unit",
+        "unit_price": "unit_price",
+        "line_total": "line_total"
+      },
+      "required_headers": [
+        "invoice_line_id",
+        "invoice_id",
+        "description",
+        "quantity",
+        "unit",
+        "unit_price",
+        "line_total"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "sales_transactions",
+      "table": "sales_transactions",
+      "mode": "upsert",
+      "conflict_columns": [
+        "transaction_id"
+      ],
+      "columns": {
+        "transaction_id": "transaction_id",
+        "organization_id": "organization_id",
+        "location_id": "location_id",
+        "source_system": "source_system",
+        "source_transaction_id": "source_transaction_id",
+        "created_at": "created_at",
+        "currency": "currency",
+        "status": "status",
+        "payment_status": "payment_status"
+      },
+      "required_headers": [
+        "transaction_id",
+        "organization_id",
+        "location_id",
+        "source_system",
+        "source_transaction_id",
+        "created_at",
+        "currency",
+        "status",
+        "payment_status"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "sales_lines",
+      "table": "sales_lines",
+      "mode": "upsert",
+      "conflict_columns": [
+        "sales_line_id"
+      ],
+      "columns": {
+        "sales_line_id": "sales_line_id",
+        "transaction_id": "transaction_id",
+        "menu_item_id": "menu_item_id",
+        "quantity": "quantity",
+        "unit_price": "unit_price",
+        "discount_amount": "discount_amount",
+        "line_total": "line_total",
+        "tax_amount": "tax_amount"
+      },
+      "required_headers": [
+        "sales_line_id",
+        "transaction_id",
+        "menu_item_id",
+        "quantity",
+        "unit_price",
+        "line_total"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "shifts",
+      "table": "shifts",
+      "mode": "upsert",
+      "conflict_columns": [
+        "shift_id"
+      ],
+      "columns": {
+        "shift_id": "shift_id",
+        "organization_id": "organization_id",
+        "location_id": "location_id",
+        "shift_date": "shift_date",
+        "start_time": "start_time",
+        "end_time": "end_time",
+        "planned": "planned"
+      },
+      "required_headers": [
+        "shift_id",
+        "organization_id",
+        "location_id",
+        "shift_date",
+        "start_time",
+        "end_time",
+        "planned"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "labor_records",
+      "table": "labor_records",
+      "mode": "upsert",
+      "conflict_columns": [
+        "labor_record_id"
+      ],
+      "columns": {
+        "labor_record_id": "labor_record_id",
+        "organization_id": "organization_id",
+        "location_id": "location_id",
+        "employee_id": "employee_id",
+        "shift_id": "shift_id",
+        "work_date": "work_date",
+        "hours_worked": "hours_worked",
+        "hourly_rate": "hourly_rate",
+        "labor_cost": "labor_cost",
+        "source": "source"
+      },
+      "required_headers": [
+        "labor_record_id",
+        "organization_id",
+        "location_id",
+        "employee_id",
+        "work_date",
+        "hours_worked",
+        "hourly_rate",
+        "labor_cost",
+        "source"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "sync_jobs",
+      "table": "sync_jobs",
+      "mode": "upsert",
+      "conflict_columns": [
+        "sync_job_id"
+      ],
+      "columns": {
+        "sync_job_id": "sync_job_id",
+        "organization_id": "organization_id",
+        "location_id": "location_id",
+        "source_system": "source_system",
+        "job_type": "job_type",
+        "started_at": "started_at",
+        "completed_at": "completed_at",
+        "status": "status",
+        "records_read": "records_read",
+        "records_written": "records_written",
+        "error_message": "error_message"
+      },
+      "required_headers": [
+        "sync_job_id",
+        "organization_id",
+        "source_system",
+        "job_type",
+        "started_at",
+        "status"
+      ],
+      "skip_empty_rows": true
+    },
+    {
+      "sheet": "metric_definitions",
+      "table": "metric_definitions",
+      "mode": "upsert",
+      "conflict_columns": [
+        "metric_key"
+      ],
+      "columns": {
+        "metric_key": "metric_key",
+        "proposed_formula": "proposed_formula",
+        "unit": "unit"
+      },
+      "required_headers": [
+        "metric_key",
+        "proposed_formula",
+        "unit"
+      ],
+      "skip_empty_rows": true,
+      "defaults": {
+        "metric_name_from_key": true
+      }
+    }
+  ],
+  "note": "Patched mappings. Assumes seed organization ORG001. See README for importer enhancements and limitations."
+}

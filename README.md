@@ -1,6 +1,6 @@
-# PP08_CaféOps_Intelligence
+# CaféOps Intelligence
 
-An AI-powered café operations platform that consolidates operational data and provides reliable reporting across sales, inventory, recipe costing, labor, vendors, and purchasing. The project demonstrates a multi-organization and multi-location architecture, deterministic business calculations, and an AI assistant constrained to validated, read-only business-data access.
+An AI-powered café operations platform that consolidates operational data and provides reliable reporting across sales, inventory, recipe costing, labor, vendors, and purchasing. The application demonstrates a multi-organization and multi-location architecture, deterministic business calculations, and an AI assistant constrained to validated, read-only business-data access.
 
 > **Project status:** Portfolio/demo implementation validated against synthetic data. This is not a production deployment. Square production synchronization, client-approved metric definitions, hosting, and operational recovery procedures remain external verification or deployment tasks.
 
@@ -23,6 +23,22 @@ The system is designed so that financial and operational values come from determ
 - AI assistant for natural-language business questions, using validated read-only data access
 - Automated backend tests and documented reconciliation results
 
+## AI assistant workflow
+
+The AI assistant lets users ask business questions in natural language without writing SQL. It follows a controlled workflow that separates language understanding from data access, calculation, and explanation.
+
+1. **Interpret the question.** The language model identifies the business metric, relevant entities, location, date range, and other requested filters. For example, a question about monthly sales is translated into a request for sales data for a specific period and location.
+2. **Generate SQL.** Based on the interpreted request, the model generates a read-only SQL query to retrieve the requested business data. The model proposes the query; it does not execute it directly.
+3. **Validate the query.** The backend checks the generated SQL before execution. Validation is intended to restrict queries to approved read-only access, permitted tables and operations, appropriate result limits, and the user's authorized organization and location scope. Invalid queries are rejected.
+4. **Execute against the database.** Only a query that passes backend validation is sent to PostgreSQL through the application’s controlled database access. The database is the source of business facts and returned values.
+5. **Return structured results.** The backend receives the database response and prepares the relevant result data and context for the language model.
+6. **Explain the result.** The model turns the returned database results into a clear natural-language answer. Business figures in the answer must be grounded in those returned results; the model should not invent missing values or present unsupported explanations as facts.
+7. **Display the answer.** The backend returns the response to the frontend, where the user can review it and ask a follow-up question.
+
+**Core principle:** the AI interprets questions and explains results; the backend enforces access and validation; the database supplies the evidence. Business calculations are performed deterministically in SQL or application code rather than delegated to the language model.
+
+The assistant's safeguards reduce risk but do not guarantee that every generated query or explanation is correct. Ambiguous questions, incomplete source data, and semantic mistakes remain possible, so automated tests and human acceptance testing are important.
+
 ## Architecture
 
 | Layer | Implementation |
@@ -42,7 +58,7 @@ The architecture follows these principles:
 4. Imports are designed to be traceable and idempotent.
 5. AI access is constrained and outputs should be grounded in retrieved business data.
 
-The detailed proposed architecture is documented in `TECHNICAL_ANALYSIS.md`. It remains a proposal pending client discovery and approval.
+The detailed proposed architecture is documented in `TECHNICAL_ANALYSIS.md`.
 
 ## Demo data and validation
 
@@ -64,7 +80,7 @@ All 12 sold menu items have a complete recipe version in the demo dataset, and n
 
 **Inventory limitation:** inventory values are theoretical and recipe-based. The demo dataset does not establish verified physical counts, waste, or adjustment truth. Negative theoretical quantities are documented as a data-reconciliation finding and should not be interpreted as proof of physical stock accuracy or a production defect.
 
-See `PP08_Milestone_3_Reconciliation_Report.md` for the detailed reconciliation and `PP08_Milestone_3_Validation_Handoff.final.md` for validation status and outstanding dependencies.
+See `Milestone_3_Reconciliation_Report.md` for the detailed reconciliation and `Milestone_3_Validation_Handoff.md` for validation status and outstanding dependencies.
 
 ## Validation status
 
@@ -94,9 +110,8 @@ These items require appropriate client decisions, credentials, source data, and 
 
 ## Portfolio summary
 
-PP08 demonstrates an end-to-end café operations application: relational data modeling, backend APIs, dashboard workflows, business-rule calculations, location-aware authorization, AI-assisted querying, automated tests, and reconciliation documentation. The validated status applies to the synthetic portfolio/demo environment; production readiness depends on the external items listed above.
+CaféOps demonstrates an end-to-end café operations application: relational data modeling, backend APIs, dashboard workflows, business-rule calculations, location-aware authorization, AI-assisted querying, automated tests, and reconciliation documentation. The validated status applies to the synthetic portfolio/demo environment; production readiness depends on the external items listed above.
 
 ## License
 
 See `LICENSE`.
-
